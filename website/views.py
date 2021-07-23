@@ -5,6 +5,15 @@ from . import db
 import json
 views = Blueprint('views',__name__, static_folder='static',template_folder='templates')
 
+
+@views.route("/portfolio", methods=['GET','POST'])
+def portfolio():
+    if request.method=="POST" and current_user.role == "admin":
+        project = request.form.get('portfolio')
+        #crear un nuevo proyecto
+        
+    return render_template('portfolio.html', user=current_user)
+
 @views.route("/", methods=['GET','POST'])
 @login_required
 def home():

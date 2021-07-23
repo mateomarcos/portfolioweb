@@ -18,3 +18,13 @@ class User(db.Model, UserMixin): #UserMixin permite usar el modulo flask_login
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     notes = db.relationship('Note')#al hacer referencias en Relationship si se pone el nombre de la clase, relacion uno a muchos!
+
+    role = db.Column(db.String(150), default = 'user')
+
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_ley = True)
+    name = db.Column(db.String(150), unique = True)
+    date = db.Column(db.DateTime(timezone=True),default=func.now())
+    description = db.Column(db.String(150))
+    link = db.Column(db.String(150))
+    
