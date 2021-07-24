@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import Note
+from .models import Note,Project
 from . import db
 import json
 views = Blueprint('views',__name__, static_folder='static',template_folder='templates')
@@ -11,8 +11,8 @@ def portfolio():
     if request.method=="POST" and current_user.role == "admin":
         project = request.form.get('portfolio')
         #crear un nuevo proyecto
-        
-    return render_template('portfolio.html', user=current_user)
+    projects = Project.query.all()
+    return render_template('portfolio.html', user=current_user, projects=projects)
 
 @views.route("/", methods=['GET','POST'])
 @login_required
@@ -36,5 +36,16 @@ def delete_note():
     if note:
         if note.user_id == current_user.id:
             db.session.delete(note)
+            db.session.commit()
+    return jsonify({})
+
+@views.route("/delete-project", methods = ['POST'])
+def delete_note():
+    data =json.loads(request.data)
+    projectId = data['projectId']
+    project = Project.query.get(projectId)
+    if project:
+        if current_user.role == 1:
+            db.session.delete(project)
             db.session.commit()
     return jsonify({})

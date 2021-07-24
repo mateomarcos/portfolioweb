@@ -5,6 +5,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash #forma de hacer una contrase;a segura encriptandola
 
 auth = Blueprint('auth',__name__, static_folder='static',template_folder='templates')
+ADMINKEY = "he256she"
 
 @auth.route("/login", methods=["POST","GET"])
 def login():
@@ -38,6 +39,7 @@ def sign_up():
         firstName = request.form.get("firstName")
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
+        role = request.form.get("adminkey") #input, type, id o name del form???
 
         user = User.query.filter_by(email='email').first() #chequear si ya existe
         if user:
@@ -52,7 +54,11 @@ def sign_up():
         elif len(password1) < 11:
             flash("La longitud de la contraseña debe ser mayor a 10 caracteres", category="error")
         else:
-            new_user = User(email=email, first_name = firstName, password = generate_password_hash(password1, method= 'sha256')) 
+            if role == ADMINKEY:
+                user_role = 1
+            else:
+                user_role = 0
+            new_user = User(email=email, first_name = firstName, password = generate_password_hash(password1, method= 'sha256'), role = user_role) 
             db.session.add(new_user)
             db.session.commit()
             flash("Cuenta creada correctamente!", category="success")   #add user to database

@@ -1,0 +1,27 @@
+{% extends "base.html" %} 
+{% block title %}Home{% endblock %} 
+{% block content %}
+    <h1 align="center">Notes</h1>
+    <ul class="list-group list-group-flush" id="notes">
+      {% for project in projects}
+      <li class="list-group-item">
+        {{ LLENAR EL FORMULARIO DEL PROYECTO }}
+        {% if user.role == 1 %}
+            <button type="button" class="close" onClick="deleteProject({{project.id}})">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% if user.role == 1 %}
+    <form method="POST">
+        {{LLENAR EL FORMULARIO DEL PROYECTO}}
+      <textarea name="project" id="project" class="form-control"></textarea>
+      <br />
+      <div align="center">
+        <button type="submit" class="btn btn-primary">Agregar</button>
+      </div>
+    </form>
+    {% endif %}
+{% endblock %}
