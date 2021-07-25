@@ -22,9 +22,9 @@ class User(db.Model, UserMixin): #UserMixin permite usar el modulo flask_login
     role = db.Column(db.Integer, default = 0) #0 usuario, 1 admin
 
 class Project(db.Model):
-    id = db.Column(db.Integer, primary_ley = True)
+    id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(150), unique = True)
     date = db.Column(db.DateTime(timezone=True),default=func.now())
-    description = db.Column(db.String(150))
+    description = db.Column(db.Text())
     link = db.Column(db.String(150))
     

@@ -1,27 +1,59 @@
 {% extends "base.html" %} 
 {% block title %}Home{% endblock %} 
 {% block content %}
-    <h1 align="center">Notes</h1>
-    <ul class="list-group list-group-flush" id="notes">
-      {% for project in projects}
-      <li class="list-group-item">
-        {{ LLENAR EL FORMULARIO DEL PROYECTO }}
-        {% if user.role == 1 %}
+    <h1 align="center">Proyectos</h1>
+    <ul class="list-group list-group-flush" id="projects">
+      {% for project in projects %}
+        <li class="list-group-item">
+            <h3 align="center">{{project.name}}</h3>
+            <div class="form-group">
+              <label for="name">Fecha de Creación: </label>
+                {{ project.date }}
+            </div>
+            <div class="form-group">
+              <label for="name">Descripción: </label>
+                {{ project.description }}
+            </div>
+            <div class="form-group">
+              <label for="name">Enlace: </label>
+                <a href={{ project.link }}>{{project.name}}</a>
+            </div>
+            {% if user.role == 1 %}
             <button type="button" class="close" onClick="deleteProject({{project.id}})">
             <span aria-hidden="true">&times;</span>
             </button>
-        {% endif %}
-      </li>
+            {% endif %}
+          </li>
       {% endfor %}
     </ul>
     {% if user.role == 1 %}
     <form method="POST">
-        {{LLENAR EL FORMULARIO DEL PROYECTO}}
-      <textarea name="project" id="project" class="form-control"></textarea>
+        <h3 align="center">Nuevo Proyecto</h3>
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input
+            type="name"
+            class="form-control"
+            id="name"
+            name="name"
+            placeholder="Nombre"
+          />
+        </div>
+        <div class="form-group">
+          <label for="enlace">Enlace</label>
+          <input
+            type="link"
+            class="form-control"
+            id="enlace"
+            name="enlace"
+            placeholder="Enlace (Ej. Github)"
+          />
+        </div>
+        <label for="name">Descripción</label>
+        <textarea name="description" id="description" class="form-control"></textarea>
       <br />
       <div align="center">
         <button type="submit" class="btn btn-primary">Agregar</button>
-      </div>
-    </form>
+      </form>
     {% endif %}
 {% endblock %}

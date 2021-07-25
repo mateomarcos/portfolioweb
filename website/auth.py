@@ -39,7 +39,7 @@ def sign_up():
         firstName = request.form.get("firstName")
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
-        role = request.form.get("adminkey") #input, type, id o name del form???
+        role = request.form.get("adminkey") #id del form
 
         user = User.query.filter_by(email='email').first() #chequear si ya existe
         if user:
@@ -51,8 +51,8 @@ def sign_up():
         elif password1 != password2:
             flash("Las contraseñas no coinciden", category="error")
             pass
-        elif len(password1) < 11:
-            flash("La longitud de la contraseña debe ser mayor a 10 caracteres", category="error")
+        elif len(password1) < 6:
+            flash("La longitud de la contraseña debe ser mayor a 5 caracteres", category="error")
         else:
             if role == ADMINKEY:
                 user_role = 1
